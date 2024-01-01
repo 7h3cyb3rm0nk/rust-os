@@ -114,10 +114,21 @@ impl Writer {
             }
         }
 
-    // moves to a new line in the buffer
+    // moves the characters up a new line
     
     pub fn new_line(&mut self) {
-        // todo
+        for row in 1..BUFFER_HEIGHT {
+            for col in 0..BUFFER_WIDTH {
+                let character = self.buffer.chars[row][col].read(); // reads the characters from
+                                                                    // buffer[row][col]
+                self.buffer.chars[row-1][cols].write(character); // writes the characters from the
+                                                                 // lower row to the upper row
+            }                                                    //using
+                                                                 //volatile::Volatile::write() and
+                                                                 //read() here
+        }
+        self.clear_row(BUFFER_HEIGHT - 1);
+        self.column_position = 0;
     }
      // write a string to buffer
     pub fn write_string(&mut self, s: &str) {
