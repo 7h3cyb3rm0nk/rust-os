@@ -127,7 +127,8 @@ pub fn print_something() {
         column_position: 0,
         color_code: ColorCode::new(Color::Yellow, Color::Black),
         buffer: unsafe {
-            &mut *(0xb8000 as *mut Buffer) // this may seem complicated
+            &mut *(0xb8000 as *mut Buffer)
+             },                            // this may seem complicated
                                            // 0xb8000 is cast as a mutable pointer to a Buffer
                                            // struct and this pointer is dereferenced and converted
                                            // to a mutable reference 
@@ -135,12 +136,10 @@ pub fn print_something() {
                                            // to not generate error
                                            // Note: so when we dereference we get the memory address of
                                            // vga buffer inside the Buffer Struct
-        },
+        
     };
 
-    writer.write_byte(b'H');
-    writer.write_string("ello ");
-    writer.write_string("World");
+    writer.write_string("Rust-OS An Operating System built on Rust Programming Language");
 }
 
 
