@@ -121,7 +121,7 @@ impl Writer {
             for col in 0..BUFFER_WIDTH {
                 let character = self.buffer.chars[row][col].read(); // reads the characters from
                                                                     // buffer[row][col]
-                self.buffer.chars[row-1][cols].write(character); // writes the characters from the
+                self.buffer.chars[row-1][col].write(character); // writes the characters from the
                                                                  // lower row to the upper row
             }                                                    //using
                                                                  //volatile::Volatile::write() and
@@ -129,6 +129,18 @@ impl Writer {
         }
         self.clear_row(BUFFER_HEIGHT - 1);
         self.column_position = 0;
+    }
+
+    pub fn clear_row(&mut self, row: usize) {
+        let blank = ScreenChar {
+            ascii_character: b' ',
+            color_code: self.color_code,
+            
+        };
+        for col in 0..BUFFER_WIDTH {
+            self.buffer.chars[row][col].write(blank); // clears all the characters to blank
+        }
+
     }
      // write a string to buffer
     pub fn write_string(&mut self, s: &str) {
