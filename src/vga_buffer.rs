@@ -133,7 +133,7 @@ impl Writer {
 }
 
 impl fmt::Write for Writer {
-    fn write_str(&mut self, s: &str) -> Result {
+    fn write_str(&mut self, s: &str) -> fmt::Result {
         self.write_string(s);
         Ok(())
     }
@@ -141,6 +141,7 @@ impl fmt::Write for Writer {
 
 
 pub fn print_something() {
+    use core::fmt::Write;
     let mut writer = Writer {
         column_position: 0,
         color_code: ColorCode::new(Color::Yellow, Color::Black),
@@ -158,6 +159,7 @@ pub fn print_something() {
     };
 
     writer.write_string("Rust-OS An Operating System built on Rust Programming Language");
+    write!(&mut writer, "{}", 1/2 ).unwrap();
 }
 
 
