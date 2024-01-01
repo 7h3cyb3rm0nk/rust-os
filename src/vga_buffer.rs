@@ -158,8 +158,8 @@ pub fn print_something() {
         
     };
 
-    writer.write_string("Rust-OS An Operating System built on Rust Programming Language");
-    write!(&mut writer, "{}", 1/2 ).unwrap();
+    // writer.write_string("Rust-OS An Operating System built on Rust Programming Language");
+    write!(&mut writer, "Rust-OS An Operating System built on Rust Programming Language ~ Version 0.1.0").unwrap();//using write! macro
 }
 
 

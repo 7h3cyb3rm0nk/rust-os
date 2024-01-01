@@ -1,6 +1,6 @@
 #![no_std] // don't link the rust sta library
 #![no_main]// disable all rust entry points
-
+#![allow(dead_code)]
 use core::panic::PanicInfo;
 
 mod vga_buffer;
