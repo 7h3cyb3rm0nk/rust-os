@@ -52,6 +52,9 @@ const BUFFER_WIDTH: usize = 80;
 
 // declaring a struct to represent the vga buffer as a 2d array 
 // of BUFFER_HEIGHT rows and BUFFER_WIDTH columns 
+// repr(transparent) to use memory layout of inner fields
+// to replicate c like 2d array because
+//ScreenChar also use c like memory layout
 #[repr(transparent)]
 struct Buffer {
     chars: [[ScreenChar; BUFFER_WIDTH]; BUFFER_HEIGHT],
@@ -106,7 +109,43 @@ impl Writer {
     pub fn new_line(&mut self) {
         // todo
     }
+     // write a string to buffer
+    pub fn write_string(&mut self, s: &str) {
+        for byte in s.bytes() {
+            match byte {
+                //printable ascii bytes or new_line
+                0x20..=0x7e | b'\n' => self.write_byte(byte),
+                // for non printable ascii
+                _ => self.write_byte(0xfe)
+            }
+        }
+    }
 }
+
+
+pub fn print_something() {
+    let mut writer = Writer {
+        column_position: 0,
+        color_code: ColorCode::new(Color::yellow, Color::black),
+        buffer: unsafe {
+            &mut *(0xb8000 as *mut Buffer) // this may seem complicated
+                                           // 0xb8000 is cast as a mutable pointer to a Buffer
+                                           // struct and this pointer is dereferenced and converted
+                                           // to a mutable reference 
+                                           // using unsafe {} for the rust compiler 
+                                           // to not generate error
+                                           // Note: so when we dereference we get the memory address of
+                                           // vga buffer inside the Buffer Struct
+        },
+    };
+
+    writer.write_byte(b'H');
+    writer.write_string("ello ");
+    writer.write_string("World");
+}
+
+
+
 
 
 
