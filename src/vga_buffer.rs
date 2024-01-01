@@ -29,7 +29,7 @@ pub enum Color { //colors for vga buffer as u8
 struct ColorCode(u8); // for generating color code for each character
 
 impl ColorCode{ // calculates the color code : lower 4 bits foreground higher 4 bits background
-    fn new(foreground: Color, background: Color) -> Colorcode {
+    fn new(foreground: Color, background: Color) -> ColorCode {
         ColorCode((background as u8) << 4 | (foreground as u8))
     }
 }
@@ -58,7 +58,6 @@ const BUFFER_WIDTH: usize = 80;
 #[repr(transparent)]
 struct Buffer {
     chars: [[ScreenChar; BUFFER_WIDTH]; BUFFER_HEIGHT],
-}
 }
 
 
@@ -126,7 +125,7 @@ impl Writer {
 pub fn print_something() {
     let mut writer = Writer {
         column_position: 0,
-        color_code: ColorCode::new(Color::yellow, Color::black),
+        color_code: ColorCode::new(Color::Yellow, Color::Black),
         buffer: unsafe {
             &mut *(0xb8000 as *mut Buffer) // this may seem complicated
                                            // 0xb8000 is cast as a mutable pointer to a Buffer
