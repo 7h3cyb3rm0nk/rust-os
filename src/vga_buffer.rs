@@ -194,7 +194,7 @@ use lazy_static::lazy_static;
 // creating a global interface for usage from
 // other modules
 // using lazy_static macro for creating a lazy static 
-// that is initialized on runtime rather than compile time 
+// that is initialized and created only when it is accessed 
 //
 lazy_static! {
     pub static ref WRITER: Writer = Writer {
