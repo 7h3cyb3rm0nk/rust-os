@@ -163,6 +163,7 @@ impl fmt::Write for Writer {
 }
 
 
+
 pub fn print_something() {
     use core::fmt::Write;
     let mut writer = Writer {
@@ -183,7 +184,21 @@ pub fn print_something() {
 
     // writer.write_string("Rust-OS An Operating System built on Rust Programming Language");
     write!(&mut writer, "Rust-OS An Operating System built on Rust Programming Language ~ Version 0.1.0").unwrap();//using write! macro
+    for _i in 0..10 {
+    writer.new_line();
+    }
 }
+
+
+// creating a global interface for usage from
+// other modules
+//
+pub static WRITER: Writer = Writer {
+    column_position: 0,
+    color_code: ColorCode::new(Color::Yellow, Color::Black),
+    buffer: unsafe{ &mut *(0xb800 as *mut Buffer)},
+
+};
 
 
 
