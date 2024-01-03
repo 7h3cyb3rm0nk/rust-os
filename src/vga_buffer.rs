@@ -189,16 +189,21 @@ pub fn print_something() {
     }
 }
 
+use lazy_static::lazy_static;
 
 // creating a global interface for usage from
 // other modules
+// using lazy_static macro for creating a lazy static 
+// that is initialized on runtime rather than compile time 
 //
-pub static WRITER: Writer = Writer {
+lazy_static! {
+    pub static ref WRITER: Writer = Writer {
     column_position: 0,
     color_code: ColorCode::new(Color::Yellow, Color::Black),
     buffer: unsafe{ &mut *(0xb800 as *mut Buffer)},
 
 };
+}
 
 
 
