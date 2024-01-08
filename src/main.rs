@@ -21,8 +21,9 @@ pub extern "C" fn _start() -> ! {
     // }
     //
     use core::fmt::Write;
-    vga_buffer::WRITER.lock().write_string("Hello World");
-    write!(vga_buffer::WRITER.lock(), "Rust Os").unwrap();
+    // vga_buffer::WRITER.lock().write_string("Hello World");
+    // write!(vga_buffer::WRITER.lock(), "Rust Os").unwrap();
+    write!(vga_buffer::WRITER.lock(), "RUST-OS An Operating System Built On Rust").unwrap();
     loop{}
 }
 
