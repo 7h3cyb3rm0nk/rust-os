@@ -20,10 +20,10 @@ pub extern "C" fn _start() -> ! {
     //     }
     // }
     //
-    use core::fmt::Write;
     // vga_buffer::WRITER.lock().write_string("Hello World");
     // write!(vga_buffer::WRITER.lock(), "Rust Os").unwrap();
-    write!(vga_buffer::WRITER.lock(), "RUST-OS An Operating System Built On Rust").unwrap();
+    //
+    println!("RUST-OS VERSION 0.1.0 ");
     loop{}
 }
 
