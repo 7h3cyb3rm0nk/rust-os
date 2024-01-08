@@ -2,7 +2,6 @@
 #![no_main]// disable all rust entry points
 #![allow(dead_code)]
 use core::panic::PanicInfo;
-
 mod vga_buffer;
 static HELLO :&[u8] = b"Rust-OS, An OS built on Rust";
 #[no_mangle] // don't mangle this function name
@@ -21,7 +20,9 @@ pub extern "C" fn _start() -> ! {
     //     }
     // }
     //
-    vga_buffer::print_something();
+    use core::fmt::Write;
+    vga_buffer::WRITER.lock().write_string("Hello World");
+    write!(vga_buffer::WRITER.lock(), "Rust Os").unwrap();
     loop{}
 }
 

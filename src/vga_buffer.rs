@@ -3,6 +3,7 @@ use core::fmt;
 
 
 
+
 #[allow(dead_code)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[repr(u8)]
@@ -164,14 +165,14 @@ impl fmt::Write for Writer {
 
 
 
-pub fn print_something() {
-    use core::fmt::Write;
-    let mut writer = Writer {
-        column_position: 0,
-        color_code: ColorCode::new(Color::Yellow, Color::Black),
-        buffer: unsafe {
-            &mut *(0xb8000 as *mut Buffer)
-             },                            // this may seem complicated
+// pub fn print_something() {
+    // use core::fmt::Write;
+    // let mut writer = Writer {
+        // column_position: 0,
+        // color_code: ColorCode::new(Color::Yellow, Color::Black),
+        // buffer: unsafe {
+            // &mut *(0xb8000 as *mut Buffer)
+             // },                            // this may seem complicated
                                            // 0xb8000 is cast as a mutable pointer to a Buffer
                                            // struct and this pointer is dereferenced and converted
                                            // to a mutable reference 
@@ -180,14 +181,14 @@ pub fn print_something() {
                                            // Note: so when we dereference we get the memory address of
                                            // vga buffer inside the Buffer Struct
         
-    };
+    // };
 
     // writer.write_string("Rust-OS An Operating System built on Rust Programming Language");
     // write!(&mut writer, "Rust-OS An Operating System built on Rust Programming Language ~ Version 0.1.0").unwrap();//using write! macro
     // for _i in 0..10 {
     // writer.new_line();
     // }
-}
+// }
 
 use lazy_static::lazy_static;
 
@@ -200,6 +201,8 @@ use lazy_static::lazy_static;
 use spin::Mutex;
 //using a spinning mutex instead of a regular mutex 
 //for better concurrency
+
+
 lazy_static! {
     pub static ref WRITER: Mutex<Writer> = Mutex::new(Writer {
     column_position: 0,
