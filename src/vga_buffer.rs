@@ -183,10 +183,10 @@ pub fn print_something() {
     };
 
     // writer.write_string("Rust-OS An Operating System built on Rust Programming Language");
-    write!(&mut writer, "Rust-OS An Operating System built on Rust Programming Language ~ Version 0.1.0").unwrap();//using write! macro
-    for _i in 0..10 {
-    writer.new_line();
-    }
+    // write!(&mut writer, "Rust-OS An Operating System built on Rust Programming Language ~ Version 0.1.0").unwrap();//using write! macro
+    // for _i in 0..10 {
+    // writer.new_line();
+    // }
 }
 
 use lazy_static::lazy_static;
@@ -196,13 +196,17 @@ use lazy_static::lazy_static;
 // using lazy_static macro for creating a lazy static 
 // that is initialized and created only when it is accessed 
 //
+//
+use spin::Mutex;
+//using a spinning mutex instead of a regular mutex 
+//for better concurrency
 lazy_static! {
-    pub static ref WRITER: Writer = Writer {
+    pub static ref WRITER: Mutex<Writer> = Mutex::new(Writer {
     column_position: 0,
     color_code: ColorCode::new(Color::Yellow, Color::Black),
     buffer: unsafe{ &mut *(0xb800 as *mut Buffer)},
 
-};
+});
 }
 
 
