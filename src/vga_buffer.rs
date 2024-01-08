@@ -198,7 +198,7 @@ macro_rules! println {
 
 #[doc(hidden)]
 
-macro_rules _print(args: fmt:Arguments) {
+pub fn _print(args: fmt:Arguments) {
     use core::fmt::Write;
     WRITER.lock().write_fmt(args).unwrap();
 }
@@ -228,7 +228,6 @@ macro_rules _print(args: fmt:Arguments) {
     // writer.new_line();
     // }
 // }
-
 
 
 
