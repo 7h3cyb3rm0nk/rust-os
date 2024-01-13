@@ -58,3 +58,11 @@ pub fn test_runner(tests: &[&dyn Fn()]) {
         test();
     }
 }
+
+
+#[test_case]
+fn trivial_assertion() {
+    println!("trivial assertion");
+    assert_eq!(1,1);
+    println!("[ok]");
+}
