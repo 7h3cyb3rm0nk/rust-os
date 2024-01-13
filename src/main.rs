@@ -1,6 +1,10 @@
 #![no_std] // don't link the rust sta library
 #![no_main]// disable all rust entry points
 #![allow(dead_code)]
+
+
+#![custom_test_framework] //using custom_test_framework for testing
+#![test_runner(crate::test_runner)] // using the test_runner fn to run the test
 use core::panic::PanicInfo;
 mod vga_buffer;
 static HELLO :&[u8] = b"Rust-OS, An OS built on Rust";
@@ -24,13 +28,24 @@ pub extern "C" fn _start() -> ! {
     // write!(vga_buffer::WRITER.lock(), "Rust Os").unwrap();
     //
     println!("RUST-OS VERSION 0.1.0 ");
+    panic!("Test Panic Message");
     loop{}
 }
 
 #[panic_handler]
 //this function is called on panic
-fn panic(_info: &PanicInfo) -> ! {
+fn panic(info: &PanicInfo) -> ! {
+    println!("{}", info);
     loop {}
 }
 
-
+//tests
+// this function takes all the tests marked with #[test_case]
+// and does the testing
+#cfg[(test)]
+pub fn test_runner(tests: &[&dyn Fn()]) { 
+    println!("Running {} tests", test.len()); 
+    for test in tests {
+        test();
+    }
+}
