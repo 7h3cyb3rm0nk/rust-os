@@ -3,12 +3,18 @@
 #![allow(dead_code)]
 
 
+#![reexport_test_harness_main = "test_main"] // using this attribute to reexport the testmain
+                                             // function as function that runs the tests
+
+
 #![custom_test_framework] //using custom_test_framework for testing
 #![test_runner(crate::test_runner)] // using the test_runner fn to run the test
 use core::panic::PanicInfo;
 mod vga_buffer;
-static HELLO :&[u8] = b"Rust-OS, An OS built on Rust";
+// static HELLO :&[u8] = b"Rust-OS, An OS built on Rust";
 #[no_mangle] // don't mangle this function name
+             //
+             //
 pub extern "C" fn _start() -> ! {
 
     //this function is the entry point since the 
@@ -27,8 +33,11 @@ pub extern "C" fn _start() -> ! {
     // vga_buffer::WRITER.lock().write_string("Hello World");
     // write!(vga_buffer::WRITER.lock(), "Rust Os").unwrap();
     //
+    
+    //
     println!("RUST-OS VERSION 0.1.0 ");
-    panic!("Test Panic Message");
+    #[cfg(test)]
+    test_main();
     loop{}
 }
 
