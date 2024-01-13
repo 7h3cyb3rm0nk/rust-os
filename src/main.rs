@@ -7,11 +7,11 @@
                                              // function as function that runs the tests
 
 
-#![custom_test_framework] //using custom_test_framework for testing
+#![feature(custom_test_frameworks)] //using custom_test_framework for testing
 #![test_runner(crate::test_runner)] // using the test_runner fn to run the test
 use core::panic::PanicInfo;
 mod vga_buffer;
-// static HELLO :&[u8] = b"Rust-OS, An OS built on Rust";
+ static HELLO :&[u8] = b"Rust-OS, An OS built on Rust";
 #[no_mangle] // don't mangle this function name
              //
              //
@@ -53,7 +53,7 @@ fn panic(info: &PanicInfo) -> ! {
 // and does the testing
 #[cfg(test)]
 pub fn test_runner(tests: &[&dyn Fn()]) { 
-    println!("Running {} tests", test.len()); 
+    println!("Running {} tests", tests.len()); 
     for test in tests {
         test();
     }
