@@ -51,7 +51,7 @@ fn panic(info: &PanicInfo) -> ! {
 //tests
 // this function takes all the tests marked with #[test_case]
 // and does the testing
-#cfg[(test)]
+#[cfg(test)]
 pub fn test_runner(tests: &[&dyn Fn()]) { 
     println!("Running {} tests", test.len()); 
     for test in tests {
