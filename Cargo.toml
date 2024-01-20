@@ -22,5 +22,5 @@ version = "1.0"
 features = ["spin_no_std"] # for unlinking std library
 
 
-[package.metadata.bootimage.]
+[package.metadata.bootimage]
 test-args = ["-device", "isa-debug-exit,iobase=0xf4,iosize=0x04"]
