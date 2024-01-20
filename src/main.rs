@@ -11,10 +11,9 @@
 #![test_runner(crate::test_runner)] // using the test_runner fn to run the test
 use core::panic::PanicInfo;
 mod vga_buffer;
- static HELLO :&[u8] = b"Rust-OS, An OS built on Rust";
+
+
 #[no_mangle] // don't mangle this function name
-             //
-             //
 pub extern "C" fn _start() -> ! {
 
     println!("RUST-OS VERSION 0.1.0 ");
