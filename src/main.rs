@@ -11,7 +11,7 @@
 #![test_runner(crate::test_runner)] // using the test_runner fn to run the test
 use core::panic::PanicInfo;
 mod vga_buffer;
-
+mod serial;
 
 #[no_mangle] // don't mangle this function name
 pub extern "C" fn _start() -> ! {
