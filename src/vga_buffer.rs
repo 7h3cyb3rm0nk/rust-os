@@ -230,4 +230,33 @@ pub fn _print(args: fmt::Arguments) {
 // }
 
 
+// tests
+//
+#[test_case]
+fn test_println_simple() {
+    println!("test_println_simple output");
+}
 
+#[test_case]
+fn test_println_many() {
+    for _ in 0..200 {
+        println!("test_println_many output");
+    }
+}
+
+
+#[test_case]
+
+//The function defines a test string
+//then iterates over characters
+//after printin string to the vga_buffer
+//string should appear at BUFFER_HEIGHT -2 
+//it is read and compared character by character
+fn test_println_output() {
+    let s = "Some string that fits on a single line";
+    println!("{}", s);
+    for (i, c) in s.chars().enumerate() {
+            let screen_char = WRITER.lock().buffer.chars[BUFFER_HEIGHT-2][i].read();
+            assert_eq!(char::from(screen_char.ascii_character), c);
+    }
+}
