@@ -1,7 +1,7 @@
 #![no_std]
 #![no_main]
 #![feature(custom_test_frameworks)]
-#![test_runner(crate::test_runner)]
+#![test_runner(rust_os::test_runner)]
 #![reexport_test_harness_main = "test_main"]
 
 
@@ -14,8 +14,10 @@ pub extern "C" fn _start() -> ! {
 }
 
 
-fn test_runner(tests: &[&dyn Fn()]) {
-    unimplemented!();
+#[test_case]
+fn test_println() {
+
+    println!("test_println output");
 }
 
 
