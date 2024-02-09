@@ -8,9 +8,9 @@
 
 
 #![feature(custom_test_frameworks)] //using custom_test_framework for testing
-#![test_runner(blog-os::test_runner)] // using the test_runner fn to run the test
+#![test_runner(rust_os::test_runner)] // using the test_runner fn to run the test
 use core::panic::PanicInfo;
-use rust-os::println;
+use rust_os::println;
 
 
 #[no_mangle] // don't mangle this function name
@@ -36,7 +36,7 @@ fn panic(info: &PanicInfo) -> ! {
 #[cfg(test)]
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {
-    rust-os::test_panic_handler(info)
+    rust_os::test_panic_handler(info);
     loop {}
 }
 
