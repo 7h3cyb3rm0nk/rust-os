@@ -8,10 +8,10 @@
 
 
 #![feature(custom_test_frameworks)] //using custom_test_framework for testing
-#![test_runner(crate::test_runner)] // using the test_runner fn to run the test
+#![test_runner(blog-os::test_runner)] // using the test_runner fn to run the test
 use core::panic::PanicInfo;
-mod vga_buffer;
-mod serial;
+use rust-os::println;
+
 
 #[no_mangle] // don't mangle this function name
 pub extern "C" fn _start() -> ! {
@@ -36,58 +36,8 @@ fn panic(info: &PanicInfo) -> ! {
 #[cfg(test)]
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {
-    serial_println!("[failed]");
-    serial_println!("Error {}", info);
-    exit_qemu(QemuExitCode::Failed);
+    rust-os::test_panic_handler(info)
     loop {}
 }
 
 
-#[derive(Debug,Clone,Copy,PartialEq,Eq)]
-#[repr(u32)]
-pub enum QemuExitCode{
-    Success = 0x10,
-    Failed = 0x11,
-}
-//function to write to the isa-debug-device
-pub fn exit_qemu(exit_code: QemuExitCode) {
-    use x86_64::instructions::port::Port;
-    unsafe {
-        let mut port = Port::new(0xf4);
-        port.write(exit_code as u32);
-    }
-}
-
-
-
-pub trait Testable {
-    fn run(&self) -> ();
-}
-
-impl<T> Testable for T
-where T: Fn()
-{
-    fn run(&self) {
-        serial_println!("{}...\t",core::any::type_name::<T>());
-        self();
-        serial_println!("[ok]");
-    }
-
-}
-//tests
-// this function takes all the tests marked with #[test_case]
-// and does the testing
-#[cfg(test)]
-pub fn test_runner(tests: &[&dyn Testable]) { 
-    serial_println!("Running {} tests", tests.len()); 
-    for test in tests {
-        test.run();
-    }
-    exit_qemu(QemuExitCode::Success);
-}
-
-
-#[test_case]
-fn trivial_assertion() {
-    assert_eq!(1,1);
-}
